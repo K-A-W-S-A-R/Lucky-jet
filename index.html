@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crash Game App</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .splash {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #3498db;
+            color: #fff;
+            font-size: 36px;
+        }
+        .container {
+            display: none;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .input-field {
+            margin-bottom: 20px;
+        }
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #27ae60;
+        }
+        .notice {
+            background-color: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .game-container {
+            text-align: center;
+            display: none;
+        }
+        .status {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .number {
+            font-size: 36px;
+            color: #3498db;
+        }
+        .countdown {
+            font-size: 18px;
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash">Welcome to Crash Game App</div>
+
+    <!-- Login Container -->
+    <div class="container" id="loginContainer">
+        <div class="notice" id="promoNotice">
+            আপনি যদি অ্যাপটি ব্যবহার করতে চান, তাহলে আপনাকে প্রথমে এই প্রমো কোড দিয়ে একাউন্ট খুলতে হবে।
+            <br> প্রমো কোড = <b>Bellal</b>
+        </div>
+        <button class="button" onclick="hideNotice()">OK</button>
+
+        <!-- Login Form -->
+        <div id="loginForm" style="display: none;">
+            <div class="input-field">
+                <input type="text" id="username" placeholder="Your Name">
+            </div>
+            <div class="input-field">
+                <input type="text" id="phone" placeholder="Your Phone Number">
+            </div>
+            <div class="input-field">
+                <input type="text" id="idnumber" placeholder="Your ID Number">
+            </div>
+            <div class="input-field">
+                <input type="password" id="password" placeholder="Password">
+            </div>
+            <button class="button" onclick="login()">Login</button>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div class="container game-container" id="gameContainer">
+        <!-- নতুন ইমেজ URL যুক্ত করা হয়েছে -->
+        <img src="https://i.imgur.com/eJvDhxw.png" alt="Logo" style="width: 100px;">
+        <div class="status" id="gameStatus">Wait for Crash and start the round</div>
+        <div class="number" id="randomNumber">0.0</div>
+        <button class="button" onclick="startGame()">Start</button>
+        <div class="countdown" id="countdownText"></div>
+        <a href="https://t.me/kawsar_1w" target="_blank">Join our Telegram</a>
+    </div>
+
+    <script>
+        // Splash screen timer
+        setTimeout(() => {
+            document.querySelector('.splash').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'block';
+        }, 2000);
+
+        function hideNotice() {
+            document.getElementById('promoNotice').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const phone = document.getElementById('phone').value;
+            const idnumber = document.getElementById('idnumber').value;
+            const password = document.getElementById('password').value;
+
+            if (phone.length !== 11 || !phone.startsWith('01')) {
+                alert("আপনার ফোন নাম্বার সঠিক নয়");
+                return;
+            }
+
+            if (!idnumber.startsWith('97') || idnumber.length < 8) {
+                alert("আপনি আমাদের Bellal প্রমো কোড দিয়ে একাউন্ট করেন নি");
+                return;
+            }
+
+            if (password !== "Bellal") {
+                alert("আপনি ভুল পাসওয়ার্ড দিয়েছেন");
+                return;
+            }
+
+            // Successful login
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'block';
+        }
+
+        let gameInProgress = false;
+
+        function getRandomNumber() {
+            return (Math.random() < 0.7 ? (Math.random() * (2.11 - 1.11) + 1.11) : (Math.random() * (3.84 - 2.11) + 2.11)).toFixed(2);
+        }
+
+        function startGame() {
+            if (gameInProgress) return;
+            gameInProgress = true;
+            const statusText = document.getElementById('gameStatus');
+            const numberText = document.getElementById('randomNumber');
+            const countdownText = document.getElementById('countdownText');
+
+            statusText.textContent = "একটু অপেক্ষা করুন";
+
+            setTimeout(() => {
+                statusText.textContent = "বেট করুন";
+                numberText.textContent = getRandomNumber();
+
+                let countdown = 7;
+                const countdownInterval = setInterval(() => {
+                    countdownText.textContent = `পরবর্তী রাউন্ডের জন্য অপেক্ষা করুন: ${countdown--} সেকেন্ড`;
+                    if (countdown < 0) {
+                        clearInterval(countdownInterval);
+                        gameInProgress = false;
+                        statusText.textContent = "Wait for Crash and start the round";
+                        numberText.textContent = "0.0";
+                    }
+                }, 1000);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
