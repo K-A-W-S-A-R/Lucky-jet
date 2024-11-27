@@ -120,7 +120,6 @@
 
     <!-- Game Container -->
     <div class="container game-container" id="gameContainer">
-        <!-- নতুন ইমেজ URL যুক্ত করা হয়েছে -->
         <img src="https://i.imgur.com/eJvDhxw.png" alt="Logo" style="width: 100px;">
         <div class="status" id="gameStatus">Wait for Crash and start the round</div>
         <div class="number" id="randomNumber">0.0</div>
@@ -152,7 +151,7 @@
                 return;
             }
 
-            if (!idnumber.startsWith('100') || idnumber.length = 8) {
+            if (!idnumber.startsWith('100') || idnumber.length < 8) {
                 alert("আপনি আমাদের Bellal প্রমো কোড দিয়ে একাউন্ট করেন নি");
                 return;
             }
